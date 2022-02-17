@@ -14,7 +14,7 @@ def time_costing(func) -> object:
     return core
 
 '''
-三重循环
+三层循环
 将数据分为两段，两段组合就有O(n^2)的复杂度
 每次循环都需要计算一次每段数据的和，所以总的复杂度是O(n^3)
 '''
@@ -33,7 +33,7 @@ def threeloop(input_data):
     return max_sum,max_list
 
 '''
-两重循环
+两层循环
 
 '''
 @time_costing
@@ -50,7 +50,6 @@ def twoloop(input_data):
             if s_sum >= s_max:
                 s_max = s_sum
                 s_max_list = input_data[x:y + 1]
-
         if s_max >= max_sum:
             max_sum = s_max
             max_list = s_max_list
