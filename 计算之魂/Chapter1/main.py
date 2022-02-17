@@ -1,7 +1,7 @@
 from time import time
 import numpy as np
 
-input_data = np.random.randint(-100, 100, 1000)
+input_data = np.random.randint(-100, 100, 100)
 #input_data=[1.5,-12.3,3.2,-5.5,23.2,3.2,-1.4,-12.2,34.2,5.4,-7.8,1.1,-4.9]
 
 
