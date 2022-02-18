@@ -1,12 +1,12 @@
 from time import time
 import numpy as np
 
-#input_data = np.random.randint(-100, 100, 100)
+input_data = np.random.randint(-100, 100, 100)
 #input_data=[1.5,-12.3,3.2,-5.5,23.2,3.2,-1.4,-12.2,34.2,5.4,-7.8,1.1,-4.9]
 
 
-input_data = [13,24,74,-20,-36,16,-7,-39,-7,3,-30,-73,94, #0-12
-             -16,74,81,4,98,-36,25,-72,-46,61,-80,12,20 ] #13~25
+#input_data = [13,24,74,-20,-36,16,-7,-39,-7,3,-30,-73,94, #0-12
+#             -16,74,81,4,98,-36,25,-72,-46,61,-80,12,20 ] #13~25
 
 
 def time_costing(func) -> object:
@@ -112,8 +112,11 @@ def divideConquer(input_data):
                     s_max_sum = r_max_sum
                     ss, se = rs, re
         return s_max_sum, ss, se
-    N = len(input_data)
-    M = N // 2
+
+    # 问题就出现在这里
+    N = len(input_data)-1
+    M = (N // 2)-1
+    print( M , N)
     max_sum, s, e = segment(0, M, M, N)
     return max_sum, input_data[s:e]
 
@@ -188,10 +191,10 @@ if __name__ == '__main__':
     print(sum)
     print("*******************")
     max_sum, max_list = threeloop(input_data)
-    print('sum = %s\n%s\n******' % (max_sum , max_list))
+    print('sum = %s\n\n******' % (max_sum ))
     max_sum, max_list = twoloop(input_data)
-    print('sum = %s\n%s\n******' % (max_sum , max_list))
+    print('sum = %s\n\n******' % (max_sum ))
     max_sum, max_list = divideConquer(input_data)
-    print('sum = %s\n%s\n******' % (max_sum , max_list))
+    print('sum = %s\n\n******' % (max_sum ))
     max_sum, max_list = function4(input_data)
-    print('sum = %s\n%s\n******' % (max_sum , max_list))
+    print('sum = %s\n\n******' % (max_sum ))
