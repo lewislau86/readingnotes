@@ -1,9 +1,13 @@
 from time import time
 import numpy as np
 
-input_data = np.random.randint(-100, 100, 100)
+#input_data = np.random.randint(-100, 100, 100)
 #input_data=[1.5,-12.3,3.2,-5.5,23.2,3.2,-1.4,-12.2,34.2,5.4,-7.8,1.1,-4.9]
-
+input_data = [ 31,-39,66,-17,-49,-95,22,71,4,12,90,-33,13,54,24,74,-20,-36, \
+-62,-44,65,-35,-39,-81,91,-49,79,-32,-82,-46,-16,18,-53,37,-17,16,-7,-39, \
+-7,3,-30,-73,94,-16,74,81,4,-1,-94,15,-33,-52,74,55,39,-23,49,97,-27,90, \
+-18,-38,-85,19,80,3,-51,98,-12,11,56,-23,38,98,-27,-36,25,-72,-46,-17, \
+61,-80,27,-21, 3,-7,85,-21,28,64,70,-83,86,27,-42,-54,95,53,61,86 ]
 
 def time_costing(func) -> object:
     def core(*args,**kwargs):
@@ -77,7 +81,6 @@ def divideConquer(input_data):
     def merge(l_max_sum, ls, le, r_max_sum, rs, re):
         s_max_sum =0;
         ss, se = 0, re
-
         if le == rs:
             if l_max_sum >= 0 and r_max_sum >= 0:
                 s_max_sum = l_max_sum + r_max_sum
