@@ -9,7 +9,7 @@ def time_costing(func) -> object:
     def core(*args,**kwargs):
         start = time()
         ret = func(*args,**kwargs)
-        print('time costing:', time() - start)
+        print('func :%s \ttime costing:%f' % (func.__name__ ,time() - start))
         return ret
     return core
 
@@ -55,8 +55,11 @@ def twoloop(input_data):
             max_list = s_max_list
     return max_sum, max_list
 
+'''
+分之算法
+'''
 @time_costing
-def function3(input_data):
+def divideConquer(input_data):
     def segment(ls, le, rs, re):
         if le - ls == 1:
             l_max_sum, ls, le = input_data[ls:le][0], ls, le
@@ -72,8 +75,8 @@ def function3(input_data):
         return merge(l_max_sum, ls, le, r_max_sum, rs, re)
 
     def merge(l_max_sum, ls, le, r_max_sum, rs, re):
-        s_max_sum = float('-inf');
-        ss, se = 0, N
+        s_max_sum =0;
+        ss, se = 0, re
 
         if le == rs:
             if l_max_sum >= 0 and r_max_sum >= 0:
@@ -175,11 +178,13 @@ def function4(input_data):
 
 
 if __name__ == '__main__':
+    print(input_data)
+
     max_sum, max_list = threeloop(input_data)
-    print(max_sum)
+    print('sum = %s\n%s\n******' % (max_sum , max_list))
     max_sum, max_list = twoloop(input_data)
-    print(max_sum )
-    max_sum, max_list = function3(input_data)
-    print(max_sum)
+    print('sum = %s\n%s\n******' % (max_sum , max_list))
+    max_sum, max_list = divideConquer(input_data)
+    print('sum = %s\n%s\n******' % (max_sum , max_list))
     max_sum, max_list = function4(input_data)
-    print(max_sum)
+    print('sum = %s\n%s\n******' % (max_sum , max_list))
