@@ -1,19 +1,18 @@
 from time import time
 import numpy as np
 
-input_data = np.random.randint(-100, 100, 100)
+
 #input_data=[1.5,-12.3,3.2,-5.5,23.2,3.2,-1.4,-12.2,34.2,5.4,-7.8,1.1,-4.9]
 
 
-#input_data = [13,24,74,-20,-36,16,-7,-39,-7,3,-30,-73,94, #0-12
-#             -16,74,81,4,98,-36,25,-72,-46,61,-80,12,20 ] #13~25
-
-
+#input_data = [30,44,80,-82,9,92,-11,-70,-49,96]
+#input_data = [-81,84,31,21,-37,8,46,-28,3,67]
+input_data = [37,-79,-31,25,98,-53,-51,-87,-87,-50]
 def time_costing(func) -> object:
     def core(*args,**kwargs):
         start = time()
         ret = func(*args,**kwargs)
-        print('func :%s \ttime costing:%.16f' % (func.__name__ ,time() - start))
+        #print('func :%s \ttime costing:%.16f' % (func.__name__ ,time() - start))
         return ret
     return core
 
@@ -65,6 +64,7 @@ def twoloop(input_data):
 @time_costing
 def divideConquer(input_data):
     def segment(ls, le, rs, re):
+        #print('ls:%d le:%d rs:%d re:%d' % (ls, le, rs, re))
         if le - ls == 1:
             l_max_sum, ls, le = input_data[ls:le][0], ls, le
         else:
@@ -82,7 +82,7 @@ def divideConquer(input_data):
         s_max_sum =0;
         ss, se = 0, re
         # 中间没有间隔
-        if le == rs:
+        if le==rs:
             if l_max_sum >= 0 and r_max_sum >= 0:
                 s_max_sum = l_max_sum + r_max_sum
                 ss, se = ls, re
@@ -111,12 +111,10 @@ def divideConquer(input_data):
                 else:
                     s_max_sum = r_max_sum
                     ss, se = rs, re
+        #print('s_max_sum:%d ss:%d se:%d' % (s_max_sum, ss, se))
         return s_max_sum, ss, se
-
-    # 问题就出现在这里
-    N = len(input_data)-1
-    M = (N // 2)-1
-    print( M , N)
+    N = len(input_data)
+    M = (N // 2)
     max_sum, s, e = segment(0, M, M, N)
     return max_sum, input_data[s:e]
 
@@ -124,24 +122,22 @@ def divideConquer(input_data):
 def function4(input_data):
     N = len(input_data)
 
-    # 正向扫描需要记录的变量
-    r_first = False  # 表示第一次出现正数时候
+    r_first = False
     r_sum = 0
     r_max = 0
     r_max_index = 0
 
-    # 反向扫描需要记录的变量
     l_first = False
     l_sum = 0
     l_max = 0
     l_max_index = 0
 
-    # 防止原始序列中全都为负数的情况需要记录的变量
     flag = False
     max_item = -1e-10
     max_item_index = 0
 
     for s in range(N):
+
         if input_data[s] >= max_item:
             max_item = input_data[s]
             max_item_index = s
@@ -151,25 +147,35 @@ def function4(input_data):
             r_first = True
             flag = True
             r_sum = input_data[s]
-            r_max = r_sum
+            if r_sum >= r_max:
+                r_max = r_sum
+                r_max_index = s + 1
 
         if r_first:
             r_sum += input_data[s]
             if r_sum >= r_max:
                 r_max = r_sum
                 r_max_index = s + 1
+            # 优化的地方，当<0时，改变起始点状态，重新累计判断
+            if r_sum < 0:
+                r_first = False
 
-                # 反向扫描
+        # 反向扫描
         if input_data[N - s - 1] > 0 and not l_first:
             l_first = True
             l_sum = input_data[N - s - 1]
-            l_max = l_sum
+            if l_sum >= l_max:
+                l_max = l_sum
+                l_max_index = N - s - 1
 
         if l_first:
             l_sum += input_data[N - s - 1]
             if l_sum >= l_max:
-                l_sum = l_max
+                l_max = l_sum
                 l_max_index = N - s - 1
+            # 优化的地方，当<0时，改变起始点状态，重新累计判断
+            if l_sum < 0:
+                l_first = False
 
     if not flag:
         max_sum = max_item
@@ -182,19 +188,24 @@ def function4(input_data):
             max_sum += i
         return max_sum, max_list
 
-
 if __name__ == '__main__':
-    print(len(input_data))
-    sum = 0
-    for i in input_data:
-        sum += i
-    print(sum)
-    print("*******************")
-    max_sum, max_list = threeloop(input_data)
-    print('sum = %s\n\n******' % (max_sum ))
-    max_sum, max_list = twoloop(input_data)
-    print('sum = %s\n\n******' % (max_sum ))
-    max_sum, max_list = divideConquer(input_data)
-    print('sum = %s\n\n******' % (max_sum ))
-    max_sum, max_list = function4(input_data)
-    print('sum = %s\n\n******' % (max_sum ))
+    count =0;
+    for i in range(1, 100):
+        input_data = np.random.randint(-100, 100, 10)
+        max_sum1, max_list1 = threeloop(input_data)
+        max_sum2, max_list2 = twoloop(input_data)
+        max_sum3, max_list3 = divideConquer(input_data)
+        max_sum4, max_list4 = function4(input_data)
+
+
+        if max_sum1!=max_sum3:
+            print(max_sum1, max_sum2, max_sum3, max_sum4)
+            print(max_list1,  max_list3 )
+            print(input_data)
+
+
+    #    count+=1
+
+    #print(count)
+
+        #print('sum = %s\n******' % (max_sum ))
